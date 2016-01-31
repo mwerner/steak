@@ -1,5 +1,7 @@
-require 'dotenv'
-Dotenv.load
+if ENV['RACK_ENV'] && ENV['RACK_ENV'] != 'production'
+  require 'dotenv'
+  Dotenv.load
+end
 
 set :public_folder, File.dirname(__FILE__) + '/public'
 set :root, File.dirname(__FILE__)
