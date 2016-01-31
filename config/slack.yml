@@ -1,0 +1,15 @@
+message:
+  attachment:
+    attributes:
+      - author_name
+      - author_link
+      - author_icon
+      - color
+      - fields
+      - image_url
+      - pretext
+      - mrkdwn_in
+      - title
+      - title_link
+      - text
+      - thumb_url

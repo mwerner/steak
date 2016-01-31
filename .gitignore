@@ -1,0 +1,6 @@
+.bundle
+vendor/ruby
+/log/*.log
+/tmp
+*.swp
+dump.rdb

@@ -1,0 +1,3 @@
+namespace :seed do
+  
+end
