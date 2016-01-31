@@ -1,31 +1,22 @@
 require 'faraday'
-require 'json'
 
 module Slack
   class Channel
-    attr_accessor :name
-    attr_reader   :message_observers, :incoming_path
+    attr_reader :name, :incoming_path, :interface
 
-    def initialize(name, path)
-      self.name = name
+    def initialize(interface, name, path)
+      @interface = interface
+      @name = name
 
+      raise ArgumentError, 'You must define SLACK_INCOMING_PATH in your environment' if path.nil?
       @incoming_path = path
-      @message_observers = []
     end
 
-    def add_message_observer(*observers)
-      observers.each { |observer| @message_observers << observer }
-    end
-
-    def recieve(incoming_message)
-      notify_message_observers(incoming_message)
-    end
-
-    def post(outgoing_message)
+    def post(message)
       response = connection.post do |req|
         req.url incoming_path
         req.headers['Content-Type'] = 'application/json'
-        req.body = outgoing_message.to_json
+        req.body = message.to_json
       end
 
       if response.status != 200
@@ -36,10 +27,6 @@ module Slack
     end
 
     private
-
-    def notify_message_observers(incoming_message)
-      message_observers.each { |observer| observer.call(self, incoming_message) }
-    end
 
     def connection
       @connection = Faraday.new(url: 'https://hooks.slack.com') do |faraday|

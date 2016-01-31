@@ -1,21 +1,23 @@
-require 'lib/slack/channel'
-
 class Bot
-  attr_reader :channel, :observers
+  attr_reader :channel, :incoming_message
 
-  def initialize(channel, path)
-    # @channel = Slack::Channel.new(channel, path)
-    @observers = []
+  def initialize(channel, incoming_message)
+    @channel = channel
+    @incoming_message = incoming_message
   end
 
-  def first
-    "Hello World"
+  def self.call(channel, incoming_message)
+    # Protect against responding to bots
+    return true if (!respond_to_bots? && incoming_message.posted_by_bot?)
+
+    new(channel, incoming_message).call
   end
 
-  def add_observer(name)
-    # observer = name.capitalize!
-    # return unless Object.const_defined?(observer)
+  def call
+    raise NotImplementedError, "#call must be implemented by subclasses"
+  end
 
-    # channel.add_message_observer(Object.const_get(observer_klass))
+  def self.respond_to_bots?
+    false
   end
 end

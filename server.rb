@@ -5,17 +5,12 @@ require 'pg'
 require 'config'
 require 'config/environment'
 require 'config/initializer'
-bot = Application.connection
+connection = Application.connection
 
 get '/' do
-  return bot.first
+  connection.receive(params)
 end
 
-# post '/message' do
-#   message = IncomingMessage.new(params)
-#   logger.info "Message! #{message.inspect}"
-#   bot.receive(message)
-
-#   # return empty to make sinatra happy
-#   ""
-# end
+get '/message' do
+  connection.receive(:message, params)
+end

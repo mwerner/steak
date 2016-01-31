@@ -1,4 +1,3 @@
 require './server'
-require './lib/rake'
-
+require 'dotenv/tasks'
 require 'sinatra/activerecord/rake'

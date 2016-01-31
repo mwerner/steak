@@ -1,0 +1,39 @@
+bots:
+  - finance
+message:
+  incoming:
+    attributes:
+      - bot_id
+      - bot_name
+      - channel_id
+      - channel_name
+      - service_id
+      - team_id
+      - team_domain
+      - text
+      - timestamp
+      - token
+      - trigger_word
+      - user_id
+      - user_name
+  outgoing:
+    attributes:
+      - channel
+      - icon_emoji
+      - icon_url
+      - link_names
+      - text
+      - username
+  attachment:
+    attributes:
+      - author_name
+      - author_link
+      - author_icon
+      - color
+      - image_url
+      - pretext
+      - mrkdwn_in
+      - title
+      - title_link
+      - text
+      - thumb_url

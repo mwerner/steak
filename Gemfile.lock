@@ -22,6 +22,7 @@ GEM
       activesupport (>= 3.0)
       deep_merge (~> 1.0.0)
     deep_merge (1.0.1)
+    dotenv (2.1.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     foreman (0.78.0)
@@ -36,6 +37,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (2.16.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -63,10 +65,12 @@ DEPENDENCIES
   activerecord
   awesome_print
   config
+  dotenv
   faraday
   foreman
   pg
   pry
+  puma
   redis
   shotgun
   sinatra

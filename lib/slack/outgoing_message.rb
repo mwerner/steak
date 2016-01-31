@@ -1,11 +1,11 @@
 module Slack
-  class MessageAttachment
-    ATTRIBUTES = [*Settings.message.attachment.attributes, :fields].map(&:to_sym).freeze
+  class OutgoingMessage
+    ATTRIBUTES = [*Settings.message.outgoing.attributes, :attachments].map(&:to_sym).freeze
     attr_accessor *ATTRIBUTES
 
     def initialize(attributes = {})
       ATTRIBUTES.each{|k,v| send("#{k}=", v) }
-      self.fields = []
+      self.attachments = []
     end
 
     def to_json(options = {})
@@ -18,7 +18,7 @@ module Slack
       Hash.new.tap do |payload|
         ATTRIBUTES.each do |attribute|
           value = send(attribute)
-          next unless value || (attribute == :fields && value.empty?)
+          next unless value || (attribute == :attachments && value.empty?)
 
           payload[attribute] = value
         end

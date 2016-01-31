@@ -1,3 +1,0 @@
-namespace :seed do
-  
-end

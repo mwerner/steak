@@ -1,3 +1,0 @@
-class GifBot
-
-end

@@ -1,9 +1,11 @@
+require 'dotenv'
+Dotenv.load
+
 set :public_folder, File.dirname(__FILE__) + '/public'
 set :root, File.dirname(__FILE__)
-register Config
 
-# SLACK_CONFIG = YAML.load_file("config/slack.yml")
-Settings.my_config_entry
+register Config
+Config.load_and_set_settings('config/settings.yml')
 
 configure :production, :development do
   db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/steak')
@@ -18,6 +20,6 @@ configure :production, :development do
   )
 end
 
-%w(controllers models).each do |dir|
-  Dir["#{dir}/*.rb"].each{|file| require file }
+%w(lib bots).each do |dir|
+  Dir["#{dir}/**/*.rb"].each{|file| puts "Loading: #{file}"; require file }
 end

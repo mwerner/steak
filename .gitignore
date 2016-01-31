@@ -1,6 +1,5 @@
 .bundle
-vendor/ruby
+.env
 /log/*.log
-/tmp
 *.swp
 dump.rdb

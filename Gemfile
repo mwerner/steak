@@ -5,6 +5,7 @@ ruby '2.2.2'
 gem 'sinatra'
 gem 'config'
 gem 'faraday'
+gem 'puma'
 
 # Datastore stuff
 gem "pg"
@@ -18,3 +19,5 @@ group :development do
   gem 'awesome_print'
   gem 'pry'
 end
+
+gem 'dotenv', groups: [:development, :test]

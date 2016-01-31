@@ -1,17 +1,14 @@
-class IncomingMessage
-  attr_accessor :token, :team_id, :team_domain, :service_id, :channel_id,
-                :channel_name, :timestamp, :user_id, :user_name, :text,
-                :bot_id, :bot_name, :trigger_word
+module Slack
+  class IncomingMessage
+    ATTRIBUTES = Settings.message.incoming.attributes.map(&:to_sym).freeze
+    attr_accessor *ATTRIBUTES
 
-  def initialize(attributes = {})
-    attributes.each do |k, v|
-      send("#{k}=", v)
+    def initialize(attributes = {})
+      attributes.each{|k, v| send("#{k}=", v) }
     end
 
-    self
-  end
-
-  def posted_by_bot?
-    self.user_name == 'slackbot'
+    def posted_by_bot?
+      self.user_name == 'slackbot'
+    end
   end
 end
