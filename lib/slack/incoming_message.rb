@@ -1,6 +1,6 @@
 module Slack
   class IncomingMessage < Slack::Communication
-    attributes Settings.message.incoming.attributes.map(&:to_sym).freeze
+    attributes *Settings.message.incoming
 
     def posted_by_bot?
       self.user_name == 'slackbot'

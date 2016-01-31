@@ -23,5 +23,5 @@ configure :production, :development do
 end
 
 %w(lib bots).each do |dir|
-  Dir["#{dir}/**/*.rb"].each{|file| puts "Loading: #{file}"; require file }
+  Dir["#{dir}/**/*.rb"].each{|file| require file }
 end
