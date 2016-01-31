@@ -9,7 +9,11 @@ module Slack
 
     def receive(*args, params)
       puts "Processing: #{args} #{params}"
-      notify_message_bots Slack::IncomingMessage.new(params)
+
+      action = 
+      message = Slack::IncomingMessage.new(params)
+
+      notify_message_bots args.first, message
       "OK"
     end
 
@@ -19,9 +23,11 @@ module Slack
       @bots << Object.const_get(bot)
     end
 
-    def notify_message_bots(message)
+    private
+
+    def notify_message_bots(action, message)
       bots.each do |bot|
-        response = bot.call(channel, message)
+        response = bot.call(action, channel, message)
         next if response.nil?
 
         channel.post response

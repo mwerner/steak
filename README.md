@@ -2,6 +2,8 @@
 
 ## Environment
 
+`REDISCLOUD_URL`: For heroku
+
 `RACK_ENV`: `[development, production]`
 
 `SLACK_CHANNEL`: `#fuuu`

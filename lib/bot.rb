@@ -9,11 +9,13 @@ class Bot
     end
   end
 
-  def self.call(channel, incoming_message)
+  def self.call(action, channel, incoming_message)
     return true if (!respond_to_bots? && incoming_message.posted_by_bot?)
 
     handler = new(channel, incoming_message)
-    return if observer? && handler.matches.empty?
+    return if observer?     && handler.matches.empty?
+    puts "not an observer: #{commandline?} && #{action}"
+    return if commandline? && !handler.handles?(action)
 
     handler.response
   end
@@ -22,16 +24,25 @@ class Bot
     raise NotImplementedError, "#call must be implemented by subclasses"
   end
 
-  def compose_message
+  def compose_message(options = {})
     Slack::OutgoingMessage.new({
       channel:  "##{incoming_message.channel_name}",
       username: self.class.instance_variable_get(:@username),
       icon_url: self.class.instance_variable_get(:@avatar)
-    })
+    }.merge(options))
   end
 
   def self.pattern
     @pattern
+  end
+
+  def self.action_name
+    @action_name
+  end
+
+  def handles?(action)
+    return false unless self.class.action_name
+    action.to_sym == self.class.action_name.to_sym
   end
 
   protected
@@ -48,8 +59,16 @@ class Bot
     @pattern = pattern
   end
 
+  def self.action(action_name, options = {})
+    @action_name = action_name
+  end
+
   def self.observer?
     !@pattern.nil?
+  end
+
+  def self.commandline?
+    !@action_name.nil?
   end
 
   private
