@@ -1,7 +1,8 @@
 class Gif < Bot
-  username 'gifbot'
-  avatar   'http://i.imgur.com/w5yXDIe.jpg'
-  command  :gif
+  description 'A more refined curated giphy'
+  username    'gifbot'
+  avatar      'http://i.imgur.com/w5yXDIe.jpg'
+  command     :gif
 
   def response
     case true
