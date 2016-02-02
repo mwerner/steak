@@ -5,17 +5,13 @@ module Slack
     def initialize(channel, path)
       @channel = Slack::Channel.new(self, channel, path)
       @bots = []
-      @output = []
+      flush_buffer
     end
 
     def receive(*args, params)
-      puts "Processing: #{args} #{params}"
       message = Slack::IncomingMessage.new(params)
-
       notify_message_bots args.first, message
-      response = @output.join("\n")
-      @output = [] # Need to clear this between messages
-      response
+      flush_buffer
     end
 
     def register_bot(name)
@@ -38,6 +34,12 @@ module Slack
           @output << response
         end
       end
+    end
+
+    def flush_buffer
+      content = (@output || []).join("\n")
+      @output = [] # Need to clear this between messages
+      content
     end
   end
 end

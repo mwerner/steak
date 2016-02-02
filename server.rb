@@ -21,6 +21,7 @@ Dir["bots/*.rb"].each do |bot|
   next unless bot_class.commandline?
 
   post "/#{bot_class.command}" do
+    puts "Processing: #{bot_class.command} #{params}"
     connection.receive(bot_class.command, params)
   end
 

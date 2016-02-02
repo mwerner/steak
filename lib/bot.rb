@@ -13,7 +13,7 @@ class Bot < DeclarativeClass
   end
 
   def self.call(action, channel, incoming_message)
-    return true if (!respond_to_bots? && incoming_message.posted_by_bot?)
+    return if (!respond_to_bots? && incoming_message.posted_by_bot?)
 
     new(action, channel, incoming_message).respond
   end
