@@ -9,7 +9,7 @@ require './server'
 require 'sinatra/activerecord/rake'
 
 task :bots do
-  active_bots = YAML.load_file('config/settings.yml')['bots'].to_a
+  active_bots = Settings.bots.to_a
   if active_bots.empty?
     puts "** All bots active"
   else
