@@ -30,7 +30,7 @@ task :bots do
       if bot_class.observer?
         puts "  Observes: #{bot_class.pattern}"
       elsif bot_class.commandline?
-        puts "  Action: /#{bot_class.action_name}"
+        puts "  Action: /#{bot_class.command}"
       end
       puts
     end
