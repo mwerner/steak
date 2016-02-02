@@ -16,7 +16,7 @@ class Gif < Bot
       message ? message : "No match for #{incoming_message.key}"
     else
       # List all available keys as a private response
-      store.keys
+      store.keys.join(', ')
     end
   end
 

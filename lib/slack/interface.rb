@@ -13,7 +13,9 @@ module Slack
       message = Slack::IncomingMessage.new(params)
 
       notify_message_bots args.first, message
-      @output.join("\n")
+      response = @output.join("\n")
+      @output = [] # Need to clear this between messages
+      response
     end
 
     def register_bot(name)
