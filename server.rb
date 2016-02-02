@@ -25,10 +25,10 @@ Dir["bots/*.rb"].each do |bot|
     connection.receive(bot_class.command, params)
   end
 
-  if ENV['RACK_ENV'] != 'production'
-    get "/#{bot_class.command}" do
-      connection.receive(bot_class.command, params)
-    end
+  next if ENV['RACK_ENV'] == 'production'
+
+  get "/#{bot_class.command}" do
+    connection.receive(bot_class.command, params)
   end
 end
 
