@@ -26,6 +26,6 @@ Dir["bots/*.rb"].each do |bot|
 end
 
 # The base route handles observers
-post '/' do
+post '/message' do
   connection.receive(params)
 end
