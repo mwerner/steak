@@ -19,7 +19,6 @@ class Mitch < Bot
     ONE_LINERS.shuffle.select do |one_liner|
       mitch_words  = one_liner.gsub(/[^\w\s]/, '').split(' ').delete_if{|w| STOP_WORDS.include?(w)}.sort.uniq
       shared_words = (received_tokens & mitch_words)
-      puts "#{shared_words.join(",")}: #{one_liner}" if shared_words.any?
       shared_words.length >= 4
     end
   end

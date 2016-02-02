@@ -6,6 +6,7 @@ gem 'sinatra'
 gem 'config'
 gem 'faraday'
 gem 'puma'
+gem 'twitter'
 
 # Datastore stuff
 gem "pg"
