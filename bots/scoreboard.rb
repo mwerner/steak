@@ -6,7 +6,9 @@ class Scoreboard < Bot
   command     :scoreboard
 
   def response
-    invoked? ? compose_message(text: scores) : adjust_score
+    return adjusted_score unless invoked?
+
+    compose_message(text: scores.map{|s| s.join(': ')}.join("\n"))
   end
 
   private
@@ -18,8 +20,7 @@ class Scoreboard < Bot
     end.sort{|(_,x),(_,y)| y.to_i <=> x.to_i }
   end
 
-  def adjust_score
-    puts matches.inspect
+  def adjusted_score
     name, operation = matches
     name = Slack::SLACK_IDS[name.gsub(/\W/, '')]
     return if name.nil? || name == incoming_message.user_name
