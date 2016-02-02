@@ -15,14 +15,9 @@ class Bot < DeclarativeClass
   def self.call(action, channel, incoming_message)
     return if (!respond_to_bots? && incoming_message.posted_by_bot?)
 
-    new(action, channel, incoming_message).respond
-  end
-
-  def respond
-    return if observer?    && matches.empty?
-    return if commandline? && !handles_command?(action)
-
-    response
+    handler = new(action, channel, incoming_message)
+    return unless handler.valid_handler?
+    handler.response
   end
 
   def response
@@ -36,6 +31,12 @@ class Bot < DeclarativeClass
       icon_url: self.class.avatar,
       link_names: 1
     }.merge(options))
+  end
+
+  def valid_handler?
+    return true if observer? && matches.any?
+    return true if commandline? && invoked?
+    false
   end
 
   protected
@@ -60,9 +61,8 @@ class Bot < DeclarativeClass
     self.class.commandline?
   end
 
-  def handles_command?(command)
-    return false unless commandline?
-    command.to_s.to_sym == self.class.command.to_sym
+  def invoked?
+    action.to_s.to_sym == self.class.command.to_sym
   end
 
   private
