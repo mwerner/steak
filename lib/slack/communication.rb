@@ -1,7 +1,9 @@
 module Slack
   class Communication
     def initialize(attributes = {})
-      attributes.each{|k,v| send("#{k}=", v) }
+      attributes.each do |k,v|
+        send("#{k}=", v) if respond_to?(k.to_sym)
+      end
     end
 
     def self.attributes(*attrs)

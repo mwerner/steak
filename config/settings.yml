@@ -10,6 +10,7 @@ message:
       - channel_id
       - channel_name
       - command
+      - response_url
       - service_id
       - team_id
       - team_domain

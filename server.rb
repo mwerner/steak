@@ -23,9 +23,21 @@ Dir["bots/*.rb"].each do |bot|
   post "/#{bot_class.command}" do
     connection.receive(bot_class.command, params)
   end
+
+  if ENV['RACK_ENV'] != 'production'
+    get "/#{bot_class.command}" do
+      connection.receive(bot_class.command, params)
+    end
+  end
 end
 
 # The base route handles observers
 post '/message' do
   connection.receive(params)
+end
+
+if ENV['RACK_ENV'] != 'production'
+  get "/message" do
+    connection.receive(params)
+  end
 end
