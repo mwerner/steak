@@ -9,6 +9,7 @@ message:
       - bot_name
       - channel_id
       - channel_name
+      - command
       - service_id
       - team_id
       - team_domain
