@@ -1,6 +1,5 @@
 .bundle
 .env
-config/settings.yml
 /log/*.log
 *.swp
 dump.rdb
