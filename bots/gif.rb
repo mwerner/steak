@@ -1,21 +1,21 @@
 class Gif < Bot
   username 'gifbot'
-  avatar   'http://imgur.com/MeYf2Ee.jpg'
+  avatar   'http://i.imgur.com/w5yXDIe.jpg'
   action   :gif
-
-  # If the message only includes a key, post the gif
-  # If other arguments are provided, map those to the private messages on this bot
 
   def response
     case true
     when incoming_message.args?
+      # User provided additional arguments beyond a gif key
       puts "GifBot[#{incoming_message.command}]: #{incoming_message.args}"
       send(incoming_message.command.to_sym, incoming_message.args)
     when incoming_message.key?
+      # Only a key was provided
       puts "GifBot[#{incoming_message.command}]: #{incoming_message.args}"
       message = respond_with_gif
       message ? message : "No match for #{incoming_message.key}"
     else
+      # List all available keys as a private response
       store.keys
     end
   end
