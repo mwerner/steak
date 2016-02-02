@@ -10,7 +10,7 @@ register Config
 Config.load_and_set_settings('config/schema.yml')
 
 configure :production, :development do
-  db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/steak')
+  db = URI.parse(ENV['DATABASE_URL'] || "postgres://localhost/steak_#{ENV['RACK_ENV']}")
 
   ActiveRecord::Base.establish_connection(
     :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
