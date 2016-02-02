@@ -20,12 +20,12 @@ Dir["bots/*.rb"].each do |bot|
   bot_class = Object.const_get(botname)
   next unless bot_class.commandline?
 
-  get "/#{bot_class.command}" do
+  post "/#{bot_class.command}" do
     connection.receive(bot_class.command, params)
   end
 end
 
 # The base route handles observers
-get '/' do
+post '/' do
   connection.receive(params)
 end
