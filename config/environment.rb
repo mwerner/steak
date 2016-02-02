@@ -22,6 +22,7 @@ configure :production, :development do
   )
 end
 
+require 'lib/slack/communication'
 %w(lib bots).each do |dir|
   Dir["#{dir}/**/*.rb"].each{|file| require file }
 end

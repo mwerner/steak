@@ -22,12 +22,16 @@ class Gif < Bot
 
   private
 
-  def add(args)
+  def add(*args)
     store.add(*args)
   end
 
   def show(*args)
     store.list(incoming_message.key)
+  end
+
+  def remove(*args)
+    store.remove(*args)
   end
 
   def respond_with_gif
