@@ -1,7 +1,3 @@
-bots:
-  - finance
-  - gif
-  - pong
 message:
   incoming:
     attributes:
