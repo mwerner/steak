@@ -6,7 +6,6 @@ class Scoreboard < Bot
   command     :scoreboard
 
   def response
-    puts "response requested: #{[matches]}"
     invoked? ? compose_message(text: scores) : adjust_score
   end
 

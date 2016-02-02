@@ -7,6 +7,7 @@ gem 'config'
 gem 'faraday'
 gem 'puma'
 gem 'twitter'
+gem 'nokogiri'
 
 # Datastore stuff
 gem "pg"
