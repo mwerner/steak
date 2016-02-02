@@ -24,6 +24,7 @@ module Slack
 
     def notify_message_bots(action, message)
       bots.each do |bot|
+        puts "Notifying: #{bot}"
         response = bot.call(action, channel, message)
         next if response.nil?
 

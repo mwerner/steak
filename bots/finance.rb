@@ -1,6 +1,4 @@
 class Finance < Bot
-  CHART_HOST = 'http://chart.finance.yahoo.com'
-
   description 'Provides a chart for stock tickers prefixed with $'
   username    'greedcjh'
   avatar      'http://imgur.com/MeYf2Ee.jpg'
@@ -13,7 +11,7 @@ class Finance < Bot
       message.attachments << Slack::MessageAttachment.new({
         title:      "$#{symbol} vs #{symbol_keys.join(', ')}",
         title_link: google_finance_link(symbol),
-        image_url:  "#{CHART_HOST}/z?#{chart_attributes(symbol, matches)}"
+        image_url:  "http://chart.finance.yahoo.com/z?#{chart_attributes(symbol, matches)}"
       })
     end
   end

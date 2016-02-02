@@ -9,7 +9,8 @@ class Bot < DeclarativeClass
     @action = action
     @channel = channel
     @incoming_message = incoming_message
-    @matches = observer? ? incoming_message.text.to_s.scan(self.class.pattern).flatten : []
+    @matches = []
+    @matches = incoming_message.text.to_s.scan(self.class.pattern).flatten if observer?
   end
 
   def self.call(action, channel, incoming_message)
