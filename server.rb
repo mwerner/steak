@@ -20,3 +20,7 @@ end
 get '/ping' do
   connection.receive(:ping, params)
 end
+
+get '/gif' do
+  connection.receive(:gif, params)
+end

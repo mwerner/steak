@@ -1,8 +1,6 @@
-require 'lib/redis_client'
+require 'redis'
 
 class Keystore
-  include RedisClient
-
   attr_reader :scope
 
   def initialize(scope)
@@ -24,12 +22,12 @@ class Keystore
     redis{|r| r.set(scoped(key), value) }
   end
 
-  def add(key, value)
-    redis{|r| r.sadd(scoped(key), value) }
-  end
-
   def del(key)
     redis{|r| r.del(scoped(key)) }
+  end
+
+  def add(key, value)
+    redis{|r| r.sadd(scoped(key), value) }
   end
 
   def remove(key, value)
@@ -69,7 +67,7 @@ class Keystore
   private
 
   def scoped(key)
-    [scope, key].join('/')
+    [scope, sanitized(key)].join('/')
   end
 
   def sanitized(key)
@@ -79,5 +77,12 @@ class Keystore
   def filter(keys, scope)
     elements = scope.split('/')[0..-2]
     keys.map{|key| key.gsub(/^.*#{elements.last}\//, '') }
+  end
+
+  def redis
+    @redis = Redis.new(url: ENV['REDISCLOUD_URL'])
+    result = yield @redis
+    @redis.quit
+    result
   end
 end

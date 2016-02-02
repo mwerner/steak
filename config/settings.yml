@@ -1,5 +1,6 @@
 bots:
   - finance
+  - gif
   - pong
 message:
   incoming:
@@ -31,6 +32,7 @@ message:
       - author_link
       - author_icon
       - color
+      - fallback
       - image_url
       - pretext
       - mrkdwn_in

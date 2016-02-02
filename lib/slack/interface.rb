@@ -5,16 +5,15 @@ module Slack
     def initialize(channel, path)
       @channel = Slack::Channel.new(self, channel, path)
       @bots = []
+      @output = []
     end
 
     def receive(*args, params)
       puts "Processing: #{args} #{params}"
-
-      action = 
       message = Slack::IncomingMessage.new(params)
 
       notify_message_bots args.first, message
-      "OK"
+      @output.join("\n")
     end
 
     def register_bot(name)
@@ -30,7 +29,12 @@ module Slack
         response = bot.call(action, channel, message)
         next if response.nil?
 
-        channel.post response
+        puts "[#{bot.name}] Received: #{response.inspect}"
+        if response.is_a?(Slack::OutgoingMessage)
+          channel.post response
+        elsif response
+          @output << response
+        end
       end
     end
   end

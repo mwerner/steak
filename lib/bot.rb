@@ -4,6 +4,7 @@ class Bot
   def initialize(channel, incoming_message)
     @channel = channel
     @incoming_message = incoming_message
+
     if self.class.observer?
       @matches = incoming_message.text.to_s.scan(self.class.pattern).flatten
     end
@@ -14,8 +15,7 @@ class Bot
 
     handler = new(channel, incoming_message)
     return if observer?     && handler.matches.empty?
-    puts "not an observer: #{commandline?} && #{action}"
-    return if commandline? && !handler.handles?(action)
+    return if commandline?  && !handler.handles?(action)
 
     handler.response
   end
@@ -28,7 +28,8 @@ class Bot
     Slack::OutgoingMessage.new({
       channel:  "##{incoming_message.channel_name}",
       username: self.class.instance_variable_get(:@username),
-      icon_url: self.class.instance_variable_get(:@avatar)
+      icon_url: self.class.instance_variable_get(:@avatar),
+      link_names: 1
     }.merge(options))
   end
 
