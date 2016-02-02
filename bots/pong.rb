@@ -1,7 +1,8 @@
 class Pong < Bot
-  username 'pongbot'
-  avatar   'http://imgur.com/MeYf2Ee.jpg'
-  action   :ping
+  description 'Responds "PONG" to the /ping command'
+  username    'pongbot'
+  avatar      'http://i.imgur.com/bSao1fE.png'
+  command     :ping
 
   def response
     compose_message({

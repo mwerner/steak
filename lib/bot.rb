@@ -1,75 +1,68 @@
-class Bot
-  attr_reader :channel, :incoming_message, :matches
+require 'lib/declarative_class'
 
-  def initialize(channel, incoming_message)
+class Bot < DeclarativeClass
+  attr_reader :action, :channel, :incoming_message, :matches
+
+  declarable :description, :username, :avatar, :pattern, :command
+
+  def initialize(action, channel, incoming_message)
+    @action = action
     @channel = channel
     @incoming_message = incoming_message
-
-    if self.class.observer?
-      @matches = incoming_message.text.to_s.scan(self.class.pattern).flatten
-    end
+    @matches = observer? ? incoming_message.text.to_s.scan(self.class.pattern).flatten : []
   end
 
   def self.call(action, channel, incoming_message)
     return true if (!respond_to_bots? && incoming_message.posted_by_bot?)
 
-    handler = new(channel, incoming_message)
-    return if observer?     && handler.matches.empty?
-    return if commandline?  && !handler.handles?(action)
-
-    handler.response
+    new(action, channel, incoming_message).respond
   end
 
-  def call
-    raise NotImplementedError, "#call must be implemented by subclasses"
+  def respond
+    return if observer?    && matches.empty?
+    return if commandline? && !handles_command?(action)
+
+    response
+  end
+
+  def response
+    raise NotImplementedError, "#response must be implemented by subclasses"
   end
 
   def compose_message(options = {})
     Slack::OutgoingMessage.new({
       channel:  "##{incoming_message.channel_name}",
-      username: self.class.instance_variable_get(:@username),
-      icon_url: self.class.instance_variable_get(:@avatar),
+      username: self.class.username,
+      icon_url: self.class.avatar,
       link_names: 1
     }.merge(options))
   end
 
-  def self.pattern
-    @pattern
-  end
-
-  def self.action_name
-    @action_name
-  end
-
-  def handles?(action)
-    return false unless self.class.action_name
-    action.to_sym == self.class.action_name.to_sym
-  end
-
   protected
 
-  def self.username(name)
-    @username = name
-  end
-
-  def self.avatar(url)
-    @avatar = url
-  end
-
-  def self.observes(pattern, options = {})
-    @pattern = pattern
-  end
-
-  def self.action(action_name, options = {})
-    @action_name = action_name
+  def self.observes(regex)
+    pattern(regex)
   end
 
   def self.observer?
     !@pattern.nil?
   end
 
+  def observer?
+    self.class.observer?
+  end
+
   def self.commandline?
-    !@action_name.nil?
+    !@command.nil?
+  end
+
+  def commandline?
+    self.class.commandline?
+  end
+
+  def handles_command?(command)
+    return false unless commandline?
+    command.to_s.to_sym == self.class.command.to_sym
   end
 
   private

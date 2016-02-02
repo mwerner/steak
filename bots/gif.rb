@@ -1,7 +1,7 @@
 class Gif < Bot
   username 'gifbot'
   avatar   'http://i.imgur.com/w5yXDIe.jpg'
-  action   :gif
+  command  :gif
 
   def response
     case true

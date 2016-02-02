@@ -8,7 +8,7 @@ module Slack
       @interface = interface
       @name = name
 
-      raise ArgumentError, 'You must define SLACK_INCOMING_PATH in your environment' if path.nil?
+      raise ArgumentError, "You must define SLACK_INCOMING_PATH in your environment.\nTry copying .env.example" if path.nil?
       @incoming_path = path
     end
 

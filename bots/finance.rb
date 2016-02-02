@@ -2,7 +2,7 @@ class Finance < Bot
   CHART_HOST = 'http://chart.finance.yahoo.com'
   username 'greedcjh'
   avatar   'http://imgur.com/MeYf2Ee.jpg'
-  observes /\$([A-Z]{1,5})/, scan: true
+  observes /\$([A-Z]{1,5})/
 
   def response
     compose_message.tap do |message|
