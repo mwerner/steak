@@ -32,7 +32,12 @@ EOF
   private
 
   def add(args)
-    args.length == 2 ? store.add(*args) : 'Usage: /gif add key url'
+    if args.length == 2
+      store.add(*args)
+      "Successfully added #{args.first}: #{args.last}"
+    else
+      'Usage: /gif add key url'
+    end
   end
 
   def show(args)
