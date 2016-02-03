@@ -2,7 +2,6 @@ class Gif < Bot
   description 'A more refined curated giphy'
   username    'gifbot'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  usage       '/gif add KEY URL'
   command     :gif
 
   HELP = <<EOF

@@ -3,7 +3,7 @@ require 'lib/declarative_class'
 class Bot < DeclarativeClass
   attr_reader :action, :channel, :incoming_message, :matches
 
-  declarable :description, :username, :avatar, :pattern, :command, :usage
+  declarable :description, :username, :avatar, :pattern, :command
 
   def initialize(action, channel, incoming_message)
     @action = action
@@ -46,7 +46,7 @@ class Bot < DeclarativeClass
     help_string = self.class.const_get('HELP')
     return unless help_string
 
-    ["#{self.class.name}Bot\n", help_string, "\n#{self.class.usage}"]
+    ["#{self.class.name}Bot\n", self.class.description, help_string].join("\n")
   end
 
   def invoked?
