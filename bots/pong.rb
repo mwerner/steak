@@ -3,6 +3,7 @@ class Pong < Bot
   username    'pongbot'
   avatar      'http://i.imgur.com/bSao1fE.png'
   command     :ping
+  HELP = "/ping                              Bot will PONG if connected properly"
 
   def response
     compose_message({

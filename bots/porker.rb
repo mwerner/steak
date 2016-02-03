@@ -20,6 +20,7 @@ class Porker < Bot
   observes    /(.*)/
 
   TUPLE_LENGTH = 3
+  HELP = "/porker                        Send a markov chain based on the conversation"
 
   attr_reader :sword1, :sword2, :sword3
 
