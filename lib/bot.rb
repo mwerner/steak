@@ -30,8 +30,8 @@ class Bot < DeclarativeClass
   def compose_message(options = {})
     Slack::OutgoingMessage.new({
       channel:  "##{incoming_message.channel_name}",
-      username: self.class.username || 'SteakBot',
-      icon_url: self.class.avatar,
+      username: self.class.username || 'CjhBot',
+      icon_url: self.class.avatar || 'http://i.imgur.com/w5yXDIe.jpg',
       link_names: 1
     }.merge(options))
   end
