@@ -4,16 +4,11 @@ module Slack
 
     # This is when a slash command had only one argument
     def key
-      token = text.to_s.match(/([\w|-]*)(.*)/)[1]
-      token.nil? || args.any? ? nil : token
-    end
-
-    def command
       text.to_s.match(/([\w|-]*)(.*)/)[1]
     end
 
     def args
-      text.to_s.match(/([\w|-]*)(.*)/).to_a.last.split(' ').flatten
+      text.to_s.match(/([\w|-]*)(.*)/).to_a.last.to_s.split(' ').flatten
     end
 
     def key?
@@ -24,8 +19,8 @@ module Slack
       !args.empty?
     end
 
-    def command_with_args?
-      command && !args.empty?
+    def key_with_args?
+      key && !args.empty?
     end
 
     def posted_by_bot?

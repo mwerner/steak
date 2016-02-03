@@ -8,11 +8,11 @@ class Gif < Bot
     case true
     when incoming_message.args?
       # User provided additional arguments beyond a gif key
-      puts "GifBot[#{incoming_message.command}]: #{incoming_message.args}"
-      send(incoming_message.command.to_sym, incoming_message.args)
+      puts "GifBot[#{incoming_message.key}]: #{incoming_message.args}"
+      send(incoming_message.key.to_sym, incoming_message.args.flatten)
     when incoming_message.key?
       # Only a key was provided
-      puts "GifBot[#{incoming_message.command}]: #{incoming_message.args}"
+      puts "GifBot[#{incoming_message.key}]: #{incoming_message.args}"
       message = respond_with_gif
       message ? message : "No match for #{incoming_message.key}"
     else
@@ -23,16 +23,17 @@ class Gif < Bot
 
   private
 
-  def add(*args)
-    store.add(*args)
+  def add(args)
+    args.length == 2 ? store.add(*args) : 'Usage: /gif add key url'
   end
 
-  def show(*args)
-    store.list(incoming_message.key)
+  def show(args)
+    key = incoming_message.args.first
+    store.list(key).join("\n")
   end
 
-  def remove(*args)
-    store.remove(*args)
+  def remove(args)
+    args.length == 2 ? store.remove(*args) : 'Usage: /gif remove key url'
   end
 
   def respond_with_gif
