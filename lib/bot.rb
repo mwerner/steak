@@ -3,7 +3,7 @@ require 'lib/declarative_class'
 class Bot < DeclarativeClass
   attr_reader :action, :channel, :incoming_message, :matches
 
-  declarable :description, :username, :avatar, :pattern, :command
+  declarable :description, :username, :avatar, :pattern, :command, :usage
 
   def initialize(action, channel, incoming_message)
     @action = action
@@ -18,6 +18,8 @@ class Bot < DeclarativeClass
 
     handler = new(action, channel, incoming_message)
     return unless handler.valid_handler?
+    return handler.help if handler.invoked? && incoming_message.help?
+
     handler.response
   end
 
@@ -40,6 +42,18 @@ class Bot < DeclarativeClass
     false
   end
 
+  def help
+    help_string = self.class.const_get('HELP')
+    return unless help_string
+
+    ["#{self.class.name}Bot\n", help_string, "\n#{self.class.usage}"]
+  end
+
+  def invoked?
+    return false unless commandline?
+    action.to_s.to_sym == self.class.command.to_sym
+  end
+
   protected
 
   def self.observes(regex)
@@ -60,10 +74,6 @@ class Bot < DeclarativeClass
 
   def commandline?
     self.class.commandline?
-  end
-
-  def invoked?
-    action.to_s.to_sym == self.class.command.to_sym
   end
 
   private

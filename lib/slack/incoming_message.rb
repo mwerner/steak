@@ -23,6 +23,10 @@ module Slack
       key && !args.empty?
     end
 
+    def help?
+      key == 'help'
+    end
+
     def posted_by_bot?
       self.user_name == 'slackbot'
     end
