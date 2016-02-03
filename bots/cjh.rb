@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'nokogiri'
+
 class Cjh < Bot
   description "Request Beau's take on technology"
   username    'trollcjh'
