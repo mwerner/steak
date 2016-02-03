@@ -43,10 +43,16 @@ class Bot < DeclarativeClass
   end
 
   def help
-    help_string = self.class.const_get('HELP')
-    return unless help_string
-
-    ["#{self.class.name}Bot\n", self.class.description, help_string].join("\n")
+    begin
+      [
+        "#{self.class.name}Bot",
+        "#{self.class.description}\n",
+        self.class.const_get('HELP'),
+        "/#{self.class.command} help                    returns this list"
+      ].join("\n")
+    rescue NameError
+      "No help defined for #{self.class.name}Bot"
+    end
   end
 
   def invoked?

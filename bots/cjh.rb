@@ -9,6 +9,7 @@ class Cjh < Bot
     haskell: 0.45,
     taylor:  0.05
   }
+  HELP = "/cjh TOPIC                   return beau's opinion on TOPIC"
 
   def response
     chosen_topic = incoming_message.key || random_technology_topic

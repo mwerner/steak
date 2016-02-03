@@ -10,7 +10,6 @@ class Gif < Bot
 /gif show KEY                show the url for the given key
 /gif add KEY URL             adds a new url for the given key
 /gif remove KEY URL          removes the url for the given key
-/gif help                    returns this list
 EOF
 
   def response
