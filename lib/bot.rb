@@ -60,6 +60,12 @@ class Bot < DeclarativeClass
     action.to_s.to_sym == self.class.command.to_sym
   end
 
+  def self.test(action, options = {})
+    channel = options[:channel] || Application.connection
+    message = options[:message] || Slack::IncomingMessage.new(text: options[:text])
+    new(action, channel, message).response
+  end
+
   protected
 
   def self.observes(regex)
