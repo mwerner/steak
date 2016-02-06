@@ -2,12 +2,11 @@ require 'open-uri'
 require 'json'
 
 class Frink < Bot
+  command     :frink
   description "Simpsons references on demand"
   username    'frinkcjh'
   avatar      'http://i.imgur.com/EEmZJGi.png'
-  command     :frink
-
-  HELP = "/frink [TERM] [TERM]         Look up a simpsons moment in the frinkiac"
+  help        '/frink [QUOTE]         Look up a simpsons quote in the frinkiac'
 
   def response
     return unless frinkiac_url = image_url

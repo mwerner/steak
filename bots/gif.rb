@@ -1,16 +1,15 @@
 class Gif < Bot
+  command     :gif
   description 'A more refined curated giphy'
   username    'gifbot'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  command     :gif
-
-  HELP = <<EOF
+  help        %q(
 /gif                         returns a list of possible keys
 /gif KEY                     returns a gif if one is found
 /gif show KEY                show the url for the given key
 /gif add KEY URL             adds a new url for the given key
 /gif remove KEY URL          removes the url for the given key
-EOF
+)
 
   def response
     case true

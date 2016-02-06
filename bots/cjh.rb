@@ -2,17 +2,13 @@ require 'open-uri'
 require 'nokogiri'
 
 class Cjh < Bot
+  command     :cjh
   description "Request Beau's take on technology"
   username    'trollcjh'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  command     :cjh
+  help        "/cjh TOPIC         return beau's opinion on TOPIC"
 
-  WEIGHTS = {
-    pro:     0.1,
-    haskell: 0.45,
-    taylor:  0.05
-  }
-  HELP = "/cjh TOPIC                   return beau's opinion on TOPIC"
+  WEIGHTS = { pro: 0.1, haskell: 0.45, taylor: 0.05 }
 
   def response
     chosen_topic = incoming_message.key || random_technology_topic

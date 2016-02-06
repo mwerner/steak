@@ -1,15 +1,15 @@
 class Scoreboard < Bot
+  command     :scoreboard
+  observes    /@(.*)(\+\+|\-\-)/
   description "Keeps track of who's winning"
   username    'scorecjh'
   avatar      'http://i.imgur.com/Tjk6mim.jpg'
-  observes    /@(.*)(\+\+|\-\-)/
-  command     :scoreboard
-  HELP = <<EOS
+  help        %q(
 @username++                Add another point to username's score
 @username--                Subtract a point from username's score
 
 /scoreboard                Show the current scores
-EOS
+)
 
   def response
     return adjusted_score unless invoked?

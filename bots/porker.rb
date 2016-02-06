@@ -13,16 +13,15 @@ class Gram < ActiveRecord::Base
 end
 
 class Porker < Bot
+  command     :porker
+  observes    /(.*)/
   description "Markov bot that's overly picky"
   username    'porkercjh'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  command     :porker
-  observes    /(.*)/
-
-  TUPLE_LENGTH = 3
-  HELP = "/porker                        Send a markov chain based on the conversation"
+  help        '/porker           Send a markov chain based on the conversation'
 
   attr_reader :sword1, :sword2, :sword3
+  TUPLE_LENGTH = 3
 
   def initialize(*args)
     super

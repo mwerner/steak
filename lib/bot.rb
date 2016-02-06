@@ -3,7 +3,7 @@ require 'lib/declarative_class'
 class Bot < DeclarativeClass
   attr_reader :action, :channel, :incoming_message, :matches
 
-  declarable :description, :username, :avatar, :pattern, :command
+  declarable :description, :username, :avatar, :pattern, :command, :help
 
   def initialize(action, channel, incoming_message)
     @action = action
@@ -47,7 +47,7 @@ class Bot < DeclarativeClass
       [
         "#{self.class.name}Bot",
         "#{self.class.description}\n",
-        self.class.const_get('HELP'),
+        self.class.help,
         "/#{self.class.command} help                    returns this list"
       ].join("\n")
     rescue NameError
