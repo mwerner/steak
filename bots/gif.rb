@@ -3,13 +3,6 @@ class Gif < Bot
   description 'A more refined curated giphy'
   username    'gifbot'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  help        %q(
-/gif                         returns a list of possible keys
-/gif KEY                     returns a gif if one is found
-/gif show KEY                show the url for the given key
-/gif add KEY URL             adds a new url for the given key
-/gif remove KEY URL          removes the url for the given key
-)
 
   def response
     case true

@@ -51,6 +51,19 @@ class Bot < DeclarativeClass
     false
   end
 
+  def self.help(value = nil)
+    if value
+      set_help(value)
+      return
+    end
+
+    root = Sinatra::Application.settings.root
+    path = File.join(root, 'docs', "#{name.downcase}.txt")
+    return @help unless File.exist?(path)
+
+    "#{@help}#{File.read(path)}"
+  end
+
   def help
     begin
       [
@@ -69,10 +82,10 @@ class Bot < DeclarativeClass
     action.to_s.to_sym == self.class.command.to_sym
   end
 
-  def self.test(action, options = {})
+  def self.test_instance(options = {})
     channel = options[:channel] || Application.connection
     message = options[:message] || Slack::IncomingMessage.new(text: options[:text])
-    new(action, channel, message).response
+    new(command || :message, channel, message)
   end
 
   protected

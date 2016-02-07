@@ -1,0 +1,29 @@
+/event
+  View upcoming events
+
+/event TAG
+  Show all the info on an event
+
+/event create TAG [|NAME|DATE|BODY|LOCATION|IMAGE_URL|LINK]
+  Create a new event delimited by the pipe "|". TAG is required
+  ex: /event create foo|My Title
+  ex: /event create umm|Weird Dungeon Sex Party|2015-11-13 23:00PST||Chez Vukicevich
+
+/event remove TAG
+  - Remove the specified event
+
+/event list
+  List all the tags for existing events
+
+/event rsvp TAG RESPONSE
+  - Mark your rsvp to this event (yes, no, maybe)
+
+/event update TAG FIELD VALUE     Update a field for an event
+  ex: /event update chabot name Chabot Glamping
+  Fields:
+    - name ( Chabot Camping )
+    - date ( 2015-10-16 18:00PST )
+    - body ( Let's camp like the Raiders win, barely and intermittently )
+    - link ( http://www.ebparks.org/parks/anthony_chabot )
+    - image_url ( http://i.imgur.com/AMmEwYN.jpg )
+    - location ( Anthony Chabot Regional Park )

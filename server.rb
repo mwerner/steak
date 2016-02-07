@@ -27,10 +27,6 @@ post '/message' do # The observer routes
   connection.receive(params)
 end
 
-get '/style' do
-  erb 'layouts/style'.to_sym, layout: 'layouts/application'.to_sym
-end
-
 get '/' do
   erb 'bots/index'.to_sym, layout: 'layouts/application'.to_sym, locals: {bots: Bot.all}
 end
@@ -47,5 +43,9 @@ if !settings.production?
 
   get "/message" do
     connection.receive(params)
+  end
+
+  get '/style' do
+    erb 'layouts/style'.to_sym, layout: 'layouts/application'.to_sym
   end
 end
