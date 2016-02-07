@@ -51,11 +51,9 @@ class Gif < Bot
   def respond_with_gif
     return unless image_url = store.rand(incoming_message.key)
     compose_message.tap do |message|
-      message.attachments << Slack::MessageAttachment.new({
-        # text: incoming_message.text, # Uncomment if you prefer the key to be shown
+      message.attach_image(image_url, {
         fallback:  "#{incoming_message.user_name} posted a gif",
-        author_name: incoming_message.user_name,
-        image_url: image_url
+        author_name: incoming_message.user_name
       })
     end
   end

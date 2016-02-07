@@ -11,11 +11,7 @@ class Frink < Bot
   def response
     return unless frinkiac_url = image_url
     compose_message.tap do |message|
-      message.attachments << Slack::MessageAttachment.new({
-        fallback:  incoming_message.text,
-        author_name: incoming_message.user_name,
-        image_url: frinkiac_url
-      })
+      message.attach_image(frinkiac_url, author_name: incoming_message.user_name)
     end
   end
 
