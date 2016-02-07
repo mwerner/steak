@@ -13,6 +13,15 @@ class Bot < DeclarativeClass
     @matches = incoming_message.text.to_s.scan(self.class.pattern).flatten if observer?
   end
 
+  def self.all
+    Dir["bots/*.rb"].map do |bot|
+      botname = File.basename(bot, '.rb').camelize
+      next unless Object.const_defined?(botname)
+
+      Object.const_get(botname)
+    end
+  end
+
   def self.call(action, channel, incoming_message)
     return if (!respond_to_bots? && incoming_message.posted_by_bot?)
 

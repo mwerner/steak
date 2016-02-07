@@ -3,8 +3,8 @@ if ENV['RACK_ENV'] && ENV['RACK_ENV'] != 'production'
   Dotenv.load
 end
 
-set :public_folder, File.dirname(__FILE__) + '/public'
-set :root, File.dirname(__FILE__)
+set :root, File.expand_path(File.join(__dir__, '..'))
+set :public_folder, File.expand_path(File.join(settings.root, 'public'))
 
 register Config
 Config.load_and_set_settings('config/schema.yml')
