@@ -6,17 +6,24 @@ class Finance < Bot
 
   def response
     compose_message.tap do |message|
-      symbol = matches.shift
-      symbol_keys = matches.map{|sym| "$#{sym}" }
-
       message.attach_image(image_url, {
-        title:      "$#{symbol} vs #{symbol_keys.join(', ')}",
+        title: chart_title(matches),
         title_link: google_finance_link(symbol)
       })
     end
   end
 
   private
+
+  def chart_title(symbols)
+    title = "$#{symbols.shift}"
+
+    if symbol_keys = symbols.map{|sym| "$#{sym}" }
+     title += "vs #{symbol_keys.join(', ')}"
+    end
+
+    title
+  end
 
   def image_url
     "http://chart.finance.yahoo.com/z?#{chart_attributes(symbol, matches)}"
