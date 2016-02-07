@@ -5,6 +5,7 @@ require 'pg'
 require 'config'
 require 'config/environment'
 require 'config/initializer'
+require 'tilt/erb'
 
 # Instance of lib/slack/interface.rb
 connection = Application.connection
@@ -13,31 +14,37 @@ connection = Application.connection
 # bots that have a `command` declared, will be loaded
 # here as a POST route with the same named action, passed to
 # the connection.
-Dir["bots/*.rb"].each do |bot|
-  botname = File.basename(bot, '.rb').camelize
-  next unless Object.const_defined?(botname)
+Bot.all.each do |bot|
+  next unless bot.commandline?
 
-  bot_class = Object.const_get(botname)
-  next unless bot_class.commandline?
-
-  post "/#{bot_class.command}" do
-    puts "Processing: #{bot_class.command} #{params}"
-    connection.receive(bot_class.command, params)
-  end
-
-  next if ENV['RACK_ENV'] == 'production'
-
-  get "/#{bot_class.command}" do
-    connection.receive(bot_class.command, params)
+  post "/#{bot.command}" do
+    puts "Processing: #{bot.command} #{params}"
+    connection.receive(bot.command, params)
   end
 end
 
-# The base route handles observers
-post '/message' do
+post '/message' do # The observer routes
   connection.receive(params)
 end
 
-if ENV['RACK_ENV'] != 'production'
+get '/style' do
+  erb 'layouts/style'.to_sym, layout: 'layouts/application'.to_sym
+end
+
+get '/' do
+  erb 'bots/index'.to_sym, layout: 'layouts/application'.to_sym, locals: {bots: Bot.all}
+end
+
+# Developer Convenience Routes
+if !settings.production?
+  Bot.all.each do |bot|
+    next unless bot.commandline?
+
+    get "/#{bot.command}" do
+      connection.receive(bot.command, params)
+    end
+  end
+
   get "/message" do
     connection.receive(params)
   end

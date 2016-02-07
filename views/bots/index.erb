@@ -1,0 +1,51 @@
+<div class="site-wrapper">
+  <header class="main-header no-cover">
+    <nav class="main-nav overlay clearfix">
+      <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+    </nav>
+
+    <div class="vertical">
+      <div class="main-header-content inner">
+        <h1 class="page-title">Steak</h1>
+        <h2 class="page-description">Pimping out your slack since 2016</h2>
+      </div>
+    </div>
+    <a class="scroll-down icon-arrow-left" href="#content" data-offset="-45"><span class="hidden">Scroll Down</span></a>
+  </header>
+
+  <main id="content" class="content" role="main">
+    <div class="extra-pagination inner">
+      <nav class="pagination" role="navigation">
+        <span class="page-number">Page 1 of 1</span>
+      </nav>
+    </div>
+
+    <% bots.each do |bot| %>
+      <article class="post">
+          <header class="post-header">
+            <h2 class="post-title">
+              <a href="/first-note/"><%= bot.username %></a>
+            </h2>
+          </header>
+          <section class="post-excerpt">
+            <p><%= bot.description %></p>
+            <% if bot.help.present? %>
+              <pre><code><%= bot.help.to_s.strip %></code></pre>
+            <% end %>
+          </section>
+          <footer class="post-meta">
+            <!--<img class="author-thumb" src="//www.gravatar.com/avatar/18bb2d341c7bd40dabd09dfcc31f19bb?s=250&amp;d=mm&amp;r=x" alt="Matthew" nopin="nopin" />-->
+            <a href="/author/matthew/">Matthew</a>
+            <time class="post-date" datetime="2016-02-04">04 February 2016</time>
+          </footer>
+      </article>
+    <% end %>
+  </main>
+
+
+  <footer class="site-footer clearfix">
+    <section class="copyright"><a href="http://my-ghost-blog.com">Note</a> © 2016</section>
+    <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost.</a> Using <a href="https://github.com/s4iko/Silent-theme">Silent theme</a></section>
+  </footer>
+</div>
+
