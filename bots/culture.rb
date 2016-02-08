@@ -2,11 +2,12 @@ require 'open-uri'
 require 'nokogiri'
 
 class Culture < Bot
-  command     :culture
-  description "Culture Yo'Self"
-  username    'culturecjh'
-  avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  help        '/culture           Get cultured with a quote by David Foster Wallace'
+  command         :culture
+  description     "Culture Yo'Self"
+  username        'culturecjh'
+  avatar          'http://i.imgur.com/w5yXDIe.jpg'
+  screenshot_url  'http://i.imgur.com/Owi9mSi.png'
+  help            '/culture           Get cultured with a quote by David Foster Wallace'
 
   ROOT_URL = "http://www.goodreads.com/author/quotes/4339.David_Foster_Wallace"
 

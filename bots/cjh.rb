@@ -2,11 +2,12 @@ require 'open-uri'
 require 'nokogiri'
 
 class Cjh < Bot
-  command     :cjh
-  description "Request Beau's take on technology"
-  username    'trollcjh'
-  avatar      'http://i.imgur.com/w5yXDIe.jpg'
-  help        "/cjh TOPIC         return beau's opinion on TOPIC"
+  command         :cjh
+  username        'trollcjh'
+  description     "Request Beau's take on technology"
+  avatar          'http://i.imgur.com/w5yXDIe.jpg'
+  screenshot_url  'http://i.imgur.com/VIatK5M.png'
+  help            "/cjh TOPIC         return beau's opinion on TOPIC"
 
   WEIGHTS = { pro: 0.1, haskell: 0.45, taylor: 0.05 }
 

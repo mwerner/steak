@@ -3,7 +3,7 @@ require 'lib/declarative_class'
 class Bot < DeclarativeClass
   attr_reader :action, :channel, :incoming_message, :matches
 
-  declarable :description, :username, :avatar, :pattern, :command, :help
+  declarable :description, :username, :avatar, :pattern, :command, :screenshot_url, :help
 
   def initialize(action, channel, incoming_message)
     @action = action

@@ -2081,3 +2081,16 @@ body:not(.post-template) .post-title {
    End of file. Animations should be the last thing here. Do not add stuff
    below this point, or it will probably fuck everything up.
    ========================================================================== */
+
+/* heh */
+h2 span.tag {
+    font-size: 0.4em;
+    padding: 0 8px;
+    background: #5C8CB5;
+    border: #426A8C 1px solid;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    line-height: 27px;
+    vertical-align: middle;
+}

@@ -14,30 +14,27 @@
   </header>
 
   <main id="content" class="content" role="main">
-    <div class="extra-pagination inner">
-      <nav class="pagination" role="navigation">
-        <span class="page-number">Page 1 of 1</span>
-      </nav>
-    </div>
-
     <% bots.each do |bot| %>
       <article class="post">
           <header class="post-header">
             <h2 class="post-title">
               <a href="/first-note/"><%= bot.username %></a>
+              <% if bot.observer? %>
+                <span class='tag'>observer</span>
+              <% end %>
             </h2>
           </header>
           <section class="post-excerpt">
             <p><%= bot.description %></p>
+            <% if bot.screenshot_url.present? %>
+              <p><img src="<%= bot.screenshot_url %>" style="max-width:100%;border:#E3EDF3 1px solid;border-radius:3px;padding:0" /></p>
+            <% end %>
+
             <% if bot.help.present? %>
               <pre><code><%= bot.help.to_s.strip %></code></pre>
             <% end %>
           </section>
-          <footer class="post-meta">
-            <!--<img class="author-thumb" src="//www.gravatar.com/avatar/18bb2d341c7bd40dabd09dfcc31f19bb?s=250&amp;d=mm&amp;r=x" alt="Matthew" nopin="nopin" />-->
-            <a href="/author/matthew/">Matthew</a>
-            <time class="post-date" datetime="2016-02-04">04 February 2016</time>
-          </footer>
+          <footer class="post-meta"></footer>
       </article>
     <% end %>
   </main>
