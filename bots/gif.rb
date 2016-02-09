@@ -1,4 +1,6 @@
-class Gif < CommandBot
+class Gif < Bot
+  include ImageControl
+  include CommandControl
   command     :gif
   username    'gifbot'
   description 'A more refined curated giphy'
@@ -23,15 +25,7 @@ class Gif < CommandBot
   end
 
   def default(args)
-    image_url = store.rand(incoming_message.key)
-    return "No match for #{incoming_message.key}" unless image_url
-
-    compose_message.tap do |message|
-      message.attach_image(image_url, {
-        fallback:  "#{incoming_message.user_name} posted a gif",
-        author_name: incoming_message.user_name
-      })
-    end
+    attached_image(feedback: "No match for #{incoming_message.key}")
   end
 
   def add(args)
@@ -45,7 +39,7 @@ class Gif < CommandBot
 
   def show(args)
     key = incoming_message.args.first
-    store.list(key).join("\n")
+    store.list(key).join("\n  ")
   end
 
   def remove(args)
@@ -53,6 +47,10 @@ class Gif < CommandBot
   end
 
   private
+
+  def image_url
+    store.rand(incoming_message.key)
+  end
 
   def store
     @store ||= Keystore.new(:gifs)

@@ -27,12 +27,16 @@ class Bot < DeclarativeClass
 
     handler = new(action, channel, incoming_message)
     return unless handler.valid_handler?
-    return handler.help if handler.invoked? && incoming_message.help?
 
+    puts "#{handler.class.name}[#{incoming_message.key}]: #{incoming_message.args}"
     handler.response
   end
 
   def response
+    return help           if invoked? && incoming_message.help?
+    return send_command   if controls_commands?
+    return attached_image if controls_images?
+
     raise NotImplementedError, "#response must be implemented by subclasses"
   end
 
@@ -80,6 +84,14 @@ class Bot < DeclarativeClass
   def invoked?
     return false unless commandline?
     action.to_s.to_sym == self.class.command.to_sym
+  end
+
+  def controls_commands?
+    false
+  end
+
+  def controls_images?
+    false
   end
 
   def self.test_instance(options = {})
