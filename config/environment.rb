@@ -3,6 +3,9 @@ if ENV['RACK_ENV'] && ENV['RACK_ENV'] != 'production'
   Dotenv.load
 end
 
+require 'open-uri'
+require 'json'
+
 set :root, File.expand_path(File.join(__dir__, '..'))
 set :public_folder, File.expand_path(File.join(settings.root, 'public'))
 

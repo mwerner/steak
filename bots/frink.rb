@@ -1,10 +1,7 @@
-require 'open-uri'
-require 'json'
-
 class Frink < Bot
   command     :frink
-  description "Simpsons references on demand"
   username    'frinkcjh'
+  description "Simpsons references on demand"
   avatar      'http://i.imgur.com/EEmZJGi.png'
   help        '/frink [QUOTE]         Look up a simpsons quote in the frinkiac'
 
@@ -18,14 +15,14 @@ class Frink < Bot
   private
 
   def image_url
-    url = search_url(incoming_message.text)
-    data = (JSON.parse(open(url).read.to_s) || [])[1]
-    return unless data
+    query = CGI.escape(incoming_message.text)
+    api_url = "https://www.frinkiac.com/api/search?q=#{query}"
+    return unless data = request(api_url).first
 
     "https://www.frinkiac.com/img/#{data['Episode']}/#{data['Timestamp']}/medium.jpg"
   end
 
-  def search_url(terms)
-    "https://www.frinkiac.com/api/search?q=#{CGI.escape(terms)}"
+  def request(url)
+    JSON.parse(open(url).read)
   end
 end

@@ -1,27 +1,31 @@
-class Gif < Bot
+class Gif < CommandBot
   command     :gif
-  description 'A more refined curated giphy'
   username    'gifbot'
+  description 'A more refined curated giphy'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'
 
-  def response
-    case true
-    when incoming_message.args?
-      # User provided additional arguments beyond a gif key
-      puts "GifBot[#{incoming_message.key}]: #{incoming_message.args}"
-      send(incoming_message.key.to_sym, incoming_message.args.flatten)
-    when incoming_message.key?
-      # Only a key was provided
-      puts "GifBot[#{incoming_message.key}]: #{incoming_message.args}"
-      message = respond_with_gif
-      message ? message : "No match for #{incoming_message.key}"
-    else
-      # List all available keys as a private response
-      store.keys.join(', ')
-    end
+  # Command Bots simplify the slack command interface:
+  # Examples:
+
+  # /gif
+  # Executes: `#bare`
+
+  # /gif hotline
+  # Executes: `#default('hotline')`
+
+  # /gif add hotline http://i.imgur.com/hyE9zfo.gif
+  # Executes: `#add(['hotline', 'http://i.imgur.com/hyE9zfo.gif'])`
+
+  # /gif remove hotline http://i.imgur.com/7ua6K8P.gif
+  # Executes: `#remove(['hotline', 'http://i.imgur.com/hyE9zfo.gif'])`
+  def bare
+    store.keys.join(', ')
   end
 
-  private
+  def default(args)
+    message = respond_with_gif
+    message ? message : "No match for #{incoming_message.key}"
+  end
 
   def add(args)
     if args.length == 2
@@ -40,6 +44,8 @@ class Gif < Bot
   def remove(args)
     args.length == 2 ? store.remove(*args) : 'Usage: /gif remove key url'
   end
+
+  private
 
   def respond_with_gif
     return unless image_url = store.rand(incoming_message.key)
