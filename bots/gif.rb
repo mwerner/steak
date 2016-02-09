@@ -23,8 +23,15 @@ class Gif < CommandBot
   end
 
   def default(args)
-    message = respond_with_gif
-    message ? message : "No match for #{incoming_message.key}"
+    image_url = store.rand(incoming_message.key)
+    return "No match for #{incoming_message.key}" unless image_url
+
+    compose_message.tap do |message|
+      message.attach_image(image_url, {
+        fallback:  "#{incoming_message.user_name} posted a gif",
+        author_name: incoming_message.user_name
+      })
+    end
   end
 
   def add(args)
@@ -46,16 +53,6 @@ class Gif < CommandBot
   end
 
   private
-
-  def respond_with_gif
-    return unless image_url = store.rand(incoming_message.key)
-    compose_message.tap do |message|
-      message.attach_image(image_url, {
-        fallback:  "#{incoming_message.user_name} posted a gif",
-        author_name: incoming_message.user_name
-      })
-    end
-  end
 
   def store
     @store ||= Keystore.new(:gifs)
