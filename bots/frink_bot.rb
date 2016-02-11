@@ -1,4 +1,4 @@
-class Frink < Bot
+class FrinkBot < Bot
   include ImageControl
   command     :frink
   username    'frinkcjh'

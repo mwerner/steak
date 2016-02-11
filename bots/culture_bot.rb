@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-class Culture < Bot
+class CultureBot < Bot
   command         :culture
   description     "Culture Yo'Self"
   username        'culturecjh'

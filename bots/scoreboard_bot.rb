@@ -1,4 +1,4 @@
-class Scoreboard < Bot
+class ScoreboardBot < Bot
   command     :scoreboard
   observes    /@(.*)(\+\+|\-\-)/
   description "Keeps track of who's winning"

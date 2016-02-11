@@ -7,8 +7,12 @@ module Slack
       self.attachments = []
     end
 
+    def attach(attrs)
+      self.attachments << Slack::MessageAttachment.new(attrs)
+    end
+
     def attach_image(url, attrs = {})
-      self.attachments << Slack::MessageAttachment.new({
+      self.attach({
         fallback:  text,
         author_name: username,
         image_url: url

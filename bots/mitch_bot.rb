@@ -1,4 +1,4 @@
-class Mitch < Bot
+class MitchBot < Bot
   observes    /(.*)/
   description 'Ocassional wisdom in the voice of Mitch Hedberg'
   username    'mitch'

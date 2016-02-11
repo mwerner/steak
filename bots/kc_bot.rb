@@ -1,6 +1,6 @@
 require "twitter"
 
-class Kc < Bot
+class KcBot < Bot
   command     :kc
   description 'KC Tweets'
   username    'kc'

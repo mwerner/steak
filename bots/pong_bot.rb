@@ -1,4 +1,4 @@
-class Pong < Bot
+class PongBot < Bot
   command     :ping
   description 'Responds "PONG" to the /ping command'
   username    'pongbot'

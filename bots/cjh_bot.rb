@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-class Cjh < Bot
+class CjhBot < Bot
   command         :cjh
   username        'trollcjh'
   description     "Request Beau's take on technology"

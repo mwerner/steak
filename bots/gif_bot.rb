@@ -1,4 +1,4 @@
-class Gif < Bot
+class GifBot < Bot
   include ImageControl
   include CommandControl
   command     :gif
