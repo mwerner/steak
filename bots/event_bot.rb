@@ -1,5 +1,5 @@
 require 'models/event'
-require 'concerns/command_control'
+require 'bots/concerns/command_control'
 
 class EventBot < Bot
   include CommandControl

@@ -1,4 +1,4 @@
-require 'concerns/image_control'
+require 'bots/concerns/image_control'
 
 class FrinkBot < Bot
   include ImageControl

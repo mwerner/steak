@@ -1,5 +1,5 @@
-require 'concerns/image_control'
-require 'concerns/command_control'
+require 'bots/concerns/image_control'
+require 'bots/concerns/command_control'
 
 class GifBot < Bot
   include ImageControl
