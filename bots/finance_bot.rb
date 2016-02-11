@@ -1,6 +1,6 @@
 class FinanceBot < Bot
   include ImageControl
-  observes    /\$([A-Z]{1,5})/
+  observes    %r[\$([A-Z]{1,5})]
   description 'Provides a chart for stock tickers prefixed with $'
   username    'greedcjh'
   avatar      'http://imgur.com/MeYf2Ee.jpg'

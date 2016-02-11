@@ -1,6 +1,6 @@
 class ScoreboardBot < Bot
   command     :scoreboard
-  observes    /@(.*)(\+\+|\-\-)/
+  observes    %r[@(.*)(\+\+|\-\-)]
   description "Keeps track of who's winning"
   username    'scorecjh'
   avatar      'http://i.imgur.com/Tjk6mim.jpg'

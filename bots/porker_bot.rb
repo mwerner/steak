@@ -2,7 +2,7 @@ require 'models/gram'
 
 class PorkerBot < Bot
   command     :porker
-  observes    /(.*)/
+  observes    %r[(.*)]
   description "Markov bot that's overly picky"
   username    'porkercjh'
   avatar      'http://i.imgur.com/w5yXDIe.jpg'

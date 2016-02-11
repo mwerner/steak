@@ -9,7 +9,7 @@ Bot's are declarative, you can declare some characteristics at the top of the cl
 Example Bot:
 
     class FooBot < Bot
-      observes /foo/
+      observes %r[foo]
 
       def response
         compose_message(text: 'bar')

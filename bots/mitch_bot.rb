@@ -1,5 +1,5 @@
 class MitchBot < Bot
-  observes    /(.*)/
+  observes    %r[(.*)]
   description 'Ocassional wisdom in the voice of Mitch Hedberg'
   username    'mitch'
   avatar      'http://i.imgur.com/bhDpHHS.jpg'
