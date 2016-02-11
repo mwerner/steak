@@ -6,13 +6,27 @@ class FrinkBot < Bot
   avatar      'http://i.imgur.com/EEmZJGi.png'
   help        '/frink [QUOTE]         Look up a simpsons quote in the frinkiac'
 
+  def response
+    return unless data = request("api/search?q=#{CGI.escape(incoming_message.text)}").first
+    @number, @timestamp = episode['Episode'], episode['Timestamp']
+
+    attached_image({
+      attachment: { text: captions.join("\n\n") }
+    })
+  end
+
   private
 
   def image_url
-    query = CGI.escape(incoming_message.text)
-    api_url = "https://www.frinkiac.com/api/search?q=#{query}"
-    return unless data = JSON.parse(open(api_url).read).first
+    "https://www.frinkiac.com/img/#{@number}/#{@timestamp}/medium.jpg"
+  end
 
-    "https://www.frinkiac.com/img/#{data['Episode']}/#{data['Timestamp']}/medium.jpg"
+  def captions
+    captions = request("api/caption?e=#{@number}&t=#{@timestamp}")
+    captions['Subtitles'].map{|s| s['Content'] }
+  end
+
+  def request(path)
+    JSON.parse(open("https://www.frinkiac.com/#{path}").read)
   end
 end
