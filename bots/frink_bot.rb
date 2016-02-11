@@ -10,7 +10,7 @@ class FrinkBot < Bot
 
   def response
     return unless data = request("api/search?q=#{CGI.escape(incoming_message.text)}").first
-    @number, @timestamp = episode['Episode'], episode['Timestamp']
+    @number, @timestamp = data['Episode'], data['Timestamp']
 
     attached_image({
       attachment: { text: captions.join("\n\n") }
