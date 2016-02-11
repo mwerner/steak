@@ -1,3 +1,5 @@
+require 'concerns/image_control'
+
 class FrinkBot < Bot
   include ImageControl
   command     :frink

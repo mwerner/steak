@@ -1,3 +1,5 @@
+require 'concerns/image_control'
+
 class FinanceBot < Bot
   include ImageControl
   observes    %r[\$([A-Z]{1,5})]
