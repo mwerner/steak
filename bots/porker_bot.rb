@@ -34,6 +34,7 @@ class PorkerBot < Bot
     (0...(words.length - TUPLE_LENGTH)).each do |i|
       Gram.add(*words[i..(i + TUPLE_LENGTH)])
     end
+    nil
   end
 
   def generated_sentence
