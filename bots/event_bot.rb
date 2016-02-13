@@ -14,6 +14,7 @@ class EventBot < Bot
 
   def default(key)
     event = Event.where(key: key).first
+    return "No event for ##{key} found"
     event_message(event)
   end
 
