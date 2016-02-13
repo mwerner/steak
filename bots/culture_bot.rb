@@ -16,7 +16,7 @@ class CultureBot < Bot
 
   private
 
-  def document_url
+  def self.document_url
     url = 'http://www.goodreads.com/author/quotes/4339.David_Foster_Wallace'
     paginated_links = Nokogiri::HTML(open(url)).xpath("//a[contains(@href, 'page=')]")
     total_pages = paginated_links.map(&:text).map(&:to_i).max

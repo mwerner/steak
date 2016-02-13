@@ -1,14 +1,12 @@
 module ScraperControl
-
   def self.included(base)
-    puts 'included'
     base.class_eval do
-      declarable :selector
+      declarable :selector, :document_url
     end
   end
 
   def document
-    @document ||= Nokogiri::HTML(open(document_url))
+    @document ||= Nokogiri::HTML(open(self.class.document_url))
   end
 
   def scraped_content

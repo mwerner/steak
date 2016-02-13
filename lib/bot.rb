@@ -28,7 +28,18 @@ class Bot < DeclarativeClass
     handler = new(action, channel, incoming_message)
     return unless handler.valid_handler?
 
-    puts "#{handler.class.name}[#{incoming_message.key}]: #{incoming_message.args}"
+    handler.class.tap do |bot|
+      params = {key: incoming_message.key, args: incoming_message.args}
+      puts "\nHandler: #{bot.name}"
+      if bot.commandline? && handler.invoked?
+        params.merge!(command: bot.command)
+      elsif observer?
+        params.merge!(pattern: bot.pattern)
+      end
+      puts "Parameters: #{params.inspect}"
+
+    end
+
     handler.response
   end
 

@@ -24,14 +24,17 @@ module Slack
 
     def notify_message_bots(action, message)
       bots.each do |bot|
-        puts "Notifying: #{bot}"
+        # puts "Notifying: #{bot}"
         response = bot.call(action, channel, message)
         next if response.nil?
 
-        puts "[#{bot.name}] Received: #{response.inspect}"
         if response.is_a?(Slack::OutgoingMessage)
+          content = response.attachments.any? ? "attachments" : response.text
+          puts "Response: @#{response.username} posts #{content} to #{response.channel}\n"
+
           channel.post response
         elsif response
+          puts "Response: Feedback - #{response}\n"
           @output << response
         end
       end
