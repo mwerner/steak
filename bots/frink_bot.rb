@@ -1,7 +1,6 @@
-require 'bots/concerns/image_control'
-
 class FrinkBot < Bot
   include ImageControl
+
   command     :frink
   username    'frinkcjh'
   description "Simpsons references on demand"

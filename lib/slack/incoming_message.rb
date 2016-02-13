@@ -4,7 +4,8 @@ module Slack
 
     # This is when a slash command had only one argument
     def key
-      text.to_s.match(/([\w|-]*)(.*)/)[1]
+      value = text.to_s.match(/([\w|-]*)(.*)/)[1]
+      value.blank? ? nil : value
     end
 
     def args

@@ -5,6 +5,7 @@ end
 
 require 'open-uri'
 require 'json'
+require 'nokogiri'
 
 set :root, File.expand_path(File.join(__dir__, '..'))
 set :public_folder, File.expand_path(File.join(settings.root, 'public'))
@@ -26,6 +27,6 @@ configure :production, :development do
 end
 
 require 'lib/slack/communication'
-%w(lib bots).each do |dir|
+%w(lib bots/concerns bots).each do |dir|
   Dir["#{dir}/**/*.rb"].each{|file| require file }
 end

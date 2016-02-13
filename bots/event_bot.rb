@@ -1,8 +1,8 @@
 require 'models/event'
-require 'bots/concerns/command_control'
 
 class EventBot < Bot
   include CommandControl
+
   command     :event
   description 'An rsvp system for ad hoc events'
   username    'eventcjh'

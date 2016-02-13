@@ -1,9 +1,7 @@
-require 'bots/concerns/image_control'
-require 'bots/concerns/command_control'
-
 class GifBot < Bot
   include ImageControl
   include CommandControl
+
   command     :gif
   username    'gifbot'
   description 'A more refined curated giphy'

@@ -1,7 +1,6 @@
-require 'bots/concerns/image_control'
-
 class FinanceBot < Bot
   include ImageControl
+
   observes    %r[\$([A-Z]{1,5})]
   description 'Provides a chart for stock tickers prefixed with $'
   username    'greedcjh'
