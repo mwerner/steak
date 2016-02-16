@@ -2,14 +2,21 @@ module Slack
   class IncomingMessage < Slack::Communication
     attributes *Settings.message.incoming
 
+    def arguments(delimiter = "\s")
+      @arguments ||= text.scan(/([\w|-]*)#{delimiter}{0,1}/).flatten.reject(&:blank?)
+    end
+
     # This is when a slash command had only one argument
     def key
-      value = text.to_s.match(/([\w|-]*)(.*)/)[1]
-      value.blank? ? nil : value
+      arguments[0]
+    end
+
+    def args_string
+      text.to_s.match(/([\w|-]*)(.*)/).to_a.last.to_s.lstrip
     end
 
     def args
-      text.to_s.match(/([\w|-]*)(.*)/).to_a.last.to_s.split(' ').flatten
+      args_string.split(' ').flatten
     end
 
     def key?

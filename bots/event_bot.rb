@@ -8,41 +8,41 @@ class EventBot < Bot
   username    'eventcjh'
   avatar      'http://i.imgur.com/mKSWziK.png'
 
-  def bare
+  def bare(_ = nil)
     Event.all.map(&:key)
   end
+  alias_method :list, :bare
 
-  def default(key)
-    event = Event.where(key: key).first
-    return "No event for ##{key} found"
+  def default(args)
+    return no_event_message unless event
     event_message(event)
   end
 
   def create(args)
-    Event.where(key: args.first).first_or_initialize.tap do |event|
-      event.update_args(args)
+    return "Event key already taken" if event
+
+    record = Event.new.tap do |event|
+      event.assign_attributes(arguments)
       event.save
     end
 
-    'Event created'
+    "Event created: ##{record.key}"
   end
 
   def remove(args)
-    event = Event.find(args.first)
-    event.destroy
-    "##{event.key} destroyed"
-  end
+    return no_event_message unless event
 
-  def list(args)
-    bare
+    event.destroy
+    "##{event.key} removed"
   end
 
   def update(args)
-    Event.where(key: args.first).first_or_initialize.tap do |event|
-      event.update_args(args)
-      event.save
-    end
-    'Event Updated'
+    return no_event_message unless event
+
+    _, _, attribute, *values = incoming_message.arguments
+    event.assign_attributes(attribute => values.join(' '))
+    event.save
+    "##{event.key} Updated. Set #{attribute} to #{values.join(' ')}"
   end
 
   def rsvp(args)
@@ -51,6 +51,10 @@ class EventBot < Bot
   end
 
   private
+
+  def event
+    @event ||= Event.where(key: incoming_message.arguments[1]).first
+  end
 
   def event_message(event)
     compose_message.tap do |message|
@@ -65,5 +69,24 @@ class EventBot < Bot
 
   def rsvp_message(rsvp)
     'rsvp'
+  end
+
+  def no_event_message
+    "No event found for ##{incoming_message.arguments[1]}"
+  end
+
+  def arguments
+    @arguments ||= begin
+      values = incoming_message.args_string.split('|')
+      key, name, date, body, loc, img, link = values
+      {
+        key: key,
+        name: name,
+        body: body,
+        location: loc,
+        image_url: img,
+        occurs_at: date
+      }
+    end
   end
 end

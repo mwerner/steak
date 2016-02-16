@@ -18,7 +18,7 @@ Bot.all.each do |bot|
   next unless bot.commandline?
 
   post "/#{bot.command}" do
-    puts "Processing: #{bot.command} #{params}"
+    puts "Routing: /#{bot.command}\nParameters: #{params}"
     connection.receive(bot.command, params)
   end
 end
@@ -27,7 +27,7 @@ post '/message' do # The observer routes
   connection.receive(params)
 end
 
-get '/' do
+get '/bots' do
   erb 'bots/index'.to_sym, layout: 'layouts/application'.to_sym, locals: {bots: Bot.all}
 end
 

@@ -29,14 +29,14 @@ class Bot < DeclarativeClass
     return unless handler.valid_handler?
 
     handler.class.tap do |bot|
-      params = {key: incoming_message.key, args: incoming_message.args}
+      data = {key: incoming_message.key, args: incoming_message.args}
       puts "\nHandler: #{bot.name}"
       if bot.commandline? && handler.invoked?
-        params.merge!(command: bot.command)
+        data.merge!(command: bot.command)
       elsif observer?
-        params.merge!(pattern: bot.pattern)
+        data.merge!(pattern: bot.pattern)
       end
-      puts "Parameters: #{params.inspect}"
+      puts "Data: #{data.inspect}"
 
     end
 
