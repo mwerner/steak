@@ -13,31 +13,28 @@
 
 ActiveRecord::Schema.define(version: 20160222025922) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "events", force: :cascade do |t|
-    t.string   "key",                     null: false
+    t.string   "key",                             null: false
     t.string   "name"
     t.string   "body"
     t.string   "location"
     t.string   "image_url"
-    t.string   "notes",      default: [],              array: true
+    t.string   "notes",      default: "--- []\n"
     t.datetime "occurs_at"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
-  add_index "events", ["key"], name: "index_events_on_key", unique: true, using: :btree
+  add_index "events", ["key"], name: "index_events_on_key", unique: true
 
   create_table "grams", force: :cascade do |t|
-    t.string "word1",                 null: false
-    t.string "word2",                 null: false
-    t.string "word3",                 null: false
-    t.string "suffixes", default: [], null: false, array: true
+    t.string "word1",                         null: false
+    t.string "word2",                         null: false
+    t.string "word3",                         null: false
+    t.string "suffixes", default: "--- []\n", null: false
   end
 
-  add_index "grams", ["word1", "word2", "word3"], name: "index_grams_on_words", unique: true, using: :btree
+  add_index "grams", ["word1", "word2", "word3"], name: "index_grams_on_words", unique: true
 
   create_table "rsvps", force: :cascade do |t|
     t.integer  "event_id",   null: false

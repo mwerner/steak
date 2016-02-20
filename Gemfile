@@ -10,12 +10,17 @@ gem 'twitter'
 gem 'nokogiri'
 
 # Datastore stuff
-gem "pg"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem 'redis'
 
+group :production do
+ gem 'pg'
+end
+
 group :development do
+  gem 'sqlite3'
+  gem 'tux'
   gem 'foreman'
   gem 'shotgun'
   gem 'awesome_print'
