@@ -2,8 +2,10 @@ module Slack
   class IncomingMessage < Slack::Communication
     attributes *Settings.message.incoming
 
+    WORD_REGEX = '[\w|-|?|+]'
+
     def arguments(delimiter = "\s")
-      @arguments ||= text.scan(/([\w|-]*)#{delimiter}{0,1}/).flatten.reject(&:blank?)
+      @arguments ||= text.scan(/(#{WORD_REGEX}*)#{delimiter}{0,1}/).flatten.reject(&:blank?)
     end
 
     # This is when a slash command had only one argument
@@ -12,7 +14,7 @@ module Slack
     end
 
     def args_string
-      text.to_s.match(/([\w|-]*)(.*)/).to_a.last.to_s.lstrip
+      text.to_s.match(/(#{WORD_REGEX}*)(.*)/).to_a.last.to_s.lstrip
     end
 
     def args

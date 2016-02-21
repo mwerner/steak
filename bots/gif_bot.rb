@@ -44,7 +44,12 @@ class GifBot < Bot
   end
 
   def remove(args)
-    args.length == 2 ? store.remove(*args) : 'Usage: /gif remove key url'
+    if args.length == 2
+      store.remove(*args)
+      "Successfully removed #{args.first}: #{args.last}"
+    else
+      'Usage: /gif remove key url'
+    end
   end
 
   private
