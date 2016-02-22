@@ -9,9 +9,10 @@ class EventBot < Bot
   avatar      'http://i.imgur.com/mKSWziK.png'
 
   def bare(_ = nil)
-    Event.all.map(&:key)
+    Event.upcoming.map do |event|
+      "#{event.name} ##{event.key}\nWhen: #{event.occurs_at.strftime('%A, %b %d at %I:%M%P')}"
+    end.join("\n")
   end
-  alias_method :list, :bare
 
   def default(args)
     return no_event_message unless event
@@ -53,16 +54,19 @@ class EventBot < Bot
   private
 
   def event
-    @event ||= Event.where(key: incoming_message.arguments[1]).first
+    @event ||= Event.where(key: incoming_message.arguments[0]).first
   end
 
   def event_message(event)
     compose_message.tap do |message|
       message.attach({
-        title:      'event', #"#{event.name} ##{event.tag}",
-        text:       'result',
+        title:      "#{event.name} ##{event.key}",
+        text:       event.body,
         color:      '#7CD197',
-        fallback:   'fallback' #"#{event.name} - #{result}"
+        fallback:   "#{event.name} - ##{event.key}",
+        thumb_url:  event.image_url,
+        mrkdwn_in:  ['fields'],
+        fields:     attachment_fields(event)
       })
     end
   end
@@ -72,7 +76,7 @@ class EventBot < Bot
   end
 
   def no_event_message
-    "No event found for ##{incoming_message.arguments[1]}"
+    "No event found for ##{incoming_message.arguments[0]}"
   end
 
   def arguments
@@ -88,5 +92,54 @@ class EventBot < Bot
         occurs_at: date
       }
     end
+  end
+
+  def attachment_fields(event)
+    location_link = nil
+    if event.location
+      location_link = "<https://maps.google.com/maps?q=#{CGI.escape(event.location)}|#{event.location}>"
+    end
+
+    fields = [{
+      title: 'Location',
+      value: location_link,
+      short: true
+    },{
+      title: 'Date',
+      value: event.occurs_at.strftime('%A, %b %d at %I:%M%P'),
+      short: true
+    }]
+
+    attending = event.rsvps.attending
+    fields.push({
+      title: ':white_check_mark: Going',
+      value: user_list(attending.map(&:username))
+    }) if attending.any?
+
+    skipping = event.rsvps.skipping
+    fields.push({
+      title: ":thubs: Can't Go",
+      value: user_list(skipping.map(&:username)),
+      short: true
+    }) if skipping.any?
+
+    waiting = (Slack::USERNAMES - event.rsvps.map(&:username))
+    fields.push({
+      title: ":speech_balloon: Haven't responded",
+      value: user_list(waiting),
+      short: true
+    }) if waiting.any?
+
+    puts fields.inspect
+    fields
+  end
+
+  def user_list(list)
+    list.map!{|name| "@#{name}" }
+    last = list.pop if list.length > 1
+
+    result = list.join(', ')
+    result += " and #{last}" if last
+    result
   end
 end
